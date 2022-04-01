@@ -65,7 +65,7 @@
   "name": "IVR_Test_Page",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit --skipLibCheck && vite build",
+    "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint  . --ext .ts,.vue",
     "lint-fix": "eslint . --fix --ext .ts,.vue",
