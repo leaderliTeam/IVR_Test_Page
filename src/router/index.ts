@@ -23,7 +23,7 @@ export const allowRouter: Array<IMenubar> = [
             {
                 path: '/home',
                 name: 'home',
-                component: () => import('@/views/home/index.vue'),
+                component: () => import('@/views/test_case/test_case_page.vue'),
                 meta: {
                     title: '首页',
                     icon: 'HomeFilled'
@@ -126,32 +126,22 @@ export const allowRouter: Array<IMenubar> = [
             }
 
         ]
-    },
-
-    {
-        path: '/sysmanage',
-        name: 'sysmanage',
+    },{
+        path: '/test_case',
+        name: '测试案例',
         component: LayOut,
         meta: {
-            title: 'Demo',
+            title: '测试案例',
             icon: 'Operation'
         },
         children:[
             {
-                path: '/usermanage',
-                name: '模糊查询',
-                component: () => import('@/views/sysmanage/usermanage.vue'),
+                path: '/test_case',
+                name: '测试案例管理',
+                component: () => import('@/views/test_case/test_case_page.vue'),
                 meta: {
-                    title: '模糊查询',
+                    title: '测试案例管理',
                     icon: 'Avatar'
-                }
-            },{
-                path: '/download',
-                name: '文件下载',
-                component: () => import('@/views/sysmanage/download.vue'),
-                meta: {
-                    title: '文件下载',
-                    icon: 'Download'
                 }
             }
         ]

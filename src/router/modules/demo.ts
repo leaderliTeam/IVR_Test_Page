@@ -53,6 +53,23 @@ export default {
                 title: 'excel',
                 icon: 'li-fi-rr-grid'
             }
+        },
+        {
+            path: '/usermanage',
+            name: '模糊查询',
+            component: () => import('@/views/sysmanage/usermanage.vue'),
+            meta: {
+                title: '模糊查询',
+                icon: 'Avatar'
+            }
+        },{
+            path: '/download',
+            name: '文件下载',
+            component: () => import('@/views/sysmanage/download.vue'),
+            meta: {
+                title: '文件下载',
+                icon: 'Download'
+            }
         }
     ]
 };
