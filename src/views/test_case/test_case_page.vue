@@ -1,38 +1,28 @@
 <template>
     <div class='app-container'>
-        <div class='layui-ellem-quote'>
-           测试案例管理
+          <div class='layui-ellem-quote'>
+            测试案例管理
         </div>
         <!-- 搜索部分 -->
         <div class='searchform'>
             <el-form>
                 <el-row>
                     <el-col :span='8'>
-                        <el-form-item label='编号'>
+                        <el-form-item >
                             <el-input
                                 placeholder='请输入内容'
                                 size='mini'
                                 clearable
                                 style='width:200px'
                             />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span='2'>
-                        <el-form-item>
-                            <el-button
-                                type='primary'
-                                size='mini'
-                                icon='Search'
-                            >
-                                搜索
-                            </el-button>
+                            <el-button size='mini' :icon="Search" type="primary">搜索</el-button>
                         </el-form-item>
                     </el-col>
                 </el-row>
             </el-form>
         </div>
 
-        <div class='layui-ellem-quote'>
+         <div class='layui-ellem-quote'>
             <span>测试案例列表</span>
             <el-row style='float:right'>
                 <el-button
@@ -41,87 +31,73 @@
                     type='primary'
                     plain
                 >新增</el-button>
+                <el-button
+                    size='mini'
+                    icon='Plus'
+                    type='primary'
+                    plain
+                >添加标签</el-button>
+                <el-button
+                    size='mini'
+                    icon='Plus'
+                    type='primary'
+                    plain
+                >执行案例绑定</el-button>
+                  <el-button
+                    size='mini'
+                    icon='Plus'
+                    type='primary'
+                    plain
+                >查看关联执行案例</el-button>
+                
+                 <el-button
+                    size='mini'
+                    icon='CloseBold'
+                    type='danger'
+                    plain
+                >批量删除</el-button>
             </el-row>
         </div>
+
         <!-- 表格部分 -->
         <div>
-            <el-table
-                :data='list'
-                border
-                highlight-current-row
-            >
-                <el-table-column
-                    width='80'
-                    label='ID'
-                    prop='id'
-                    align='center'
-                />
-                <el-table-column
-                    label='场景编号'
-                    prop='username'
-                    align='center'
-                />
-                <el-table-column
-                    label='场景名称'
-                    prop='age'
-                    align='center'
-                />
-                <el-table-column
-                    label='场景类型'
-                    prop='description'
-                    align='center'
-                />
-                <el-table-column
-                    label='场景类别'
-                    prop='email'
-                    align='center'
-                />
-                <el-table-column
-                    label='个性化播报'
-                    prop='date'
-                    align='center'
-                />
-                <el-table-column
-                    label='启用标识'
-                    prop='date'
-                    align='center'
-                />
-                <el-table-column
-                    label='审批状态'
-                    prop='date'
-                    align='center'
-                />
-                <el-table-column
-                    label='备注'
-                    prop='date'
-                    align='center'
-                />
-                <el-table-column
-                    label='操作'
-                    align='center'
-                    width='200'
-                >
-                   
-                    <el-link
-                        type='info'
-                    >详情</el-link>
-                    <el-link>当前场景</el-link>
-                    <el-link type='primary'>编辑</el-link>
+             <el-table :data="tableData" style="width: 100%" size="small" stripe="true" border>
+                <el-table-column fixed prop="id" label="编号" width="150" />
+                <el-table-column prop="caseDesc" label="案例描述" width="200" />
+                <el-table-column prop="inputSeq" label="输入序列" width="150" />
+                <el-table-column prop="expResultRule" label="预期结果规则校验" width="150" />
+                <el-table-column prop="used" label="是否弃用" width="150" />
+                <el-table-column prop="reqId" label="关联的需求编号" width="150" />
+                <el-table-column prop="tester" label="测试负责人" width="150" />
+                <el-table-column prop="developer" label="开发负责人" width="150" />
+                <el-table-column prop="frontCaseId" label="前置测试案例编号" width="150" />
+                <el-table-column prop="executeNum" label="执行次数" width="150" />
+                <el-table-column prop="lastExecuteTime" label="最后执行时间" width="150" />
+                <el-table-column prop="editState" label="编辑状态" width="150" />
+                <el-table-column fixed="right" label="操作" width="260">
+                    <template #default>
+                         <el-button type="primary" size="small">预期结果规则</el-button>
+                        <el-button type="primary" size="small">编辑</el-button>
+                        <el-button type="danger" size="small">删除</el-button>
+                    </template>
                 </el-table-column>
-            </el-table>
+             </el-table>
         </div>
+       
     </div>
 </template>
 <script setup lang='ts'>
 import { reactive } from 'vue';
 import axios from 'axios';
-const list:any = reactive([]);
+const tableData:any = reactive([]);
 
-axios.get('/api/scene').then(res => {
+
+
+axios.get('/api/test_case_page').then(res => {
     if(res.data.list.length > 0) {
         let i:number;
         for(i = 0; i < res.data.list.length; i++) {
-            list.push(res.data.list[i]);
+            tableData.push(res.data.list[i]);
         }   
     }   
 });
