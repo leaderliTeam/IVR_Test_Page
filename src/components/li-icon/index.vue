@@ -1,4 +1,4 @@
-<script lang='ts'>
+<!-- <script lang='ts'>
 
 
 import { defineComponent, h, resolveComponent } from 'vue';
@@ -23,7 +23,7 @@ export default defineComponent({
     render() {
 
         let name = this.name || 'Setting';
-        console.log('------------>', name);
+        console.log('-----------', name);
         if (name?.startsWith('li-')) {
             return h('svg', { 'aria-hidden': true, class: this.class }, [
 
@@ -35,4 +35,4 @@ export default defineComponent({
     }
 });
 
-</script>
+</script> -->
