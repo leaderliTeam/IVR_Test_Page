@@ -31,12 +31,7 @@
                     type='primary'
                     plain
                 >新增</el-button>
-                <el-button
-                    size='mini'
-                    icon='Plus'
-                    type='primary'
-                    plain
-                >添加标签</el-button>
+                
                 <el-button
                     size='mini'
                     icon='Plus'
