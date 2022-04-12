@@ -31,12 +31,7 @@
                     type='primary'
                     plain
                 >新增</el-button>
-                <el-button
-                    size='mini'
-                    icon='Plus'
-                    type='primary'
-                    plain
-                >添加标签</el-button>
+                
                 <el-button
                     size='mini'
                     icon='Plus'
@@ -61,7 +56,9 @@
 
         <!-- 表格部分 -->
         <div>
-             <el-table :data="tableData" style="width: 100%" size="small" stripe="true" border>
+            
+             <el-table :data="tableData" style="width: 100%" size="small" stripe="true" border @selection-change="handleSelectionChange">
+                <el-table-column type="selection" width="40" />
                 <el-table-column fixed prop="id" label="编号" width="150" />
                 <el-table-column prop="caseDesc" label="案例描述" width="200" />
                 <el-table-column prop="inputSeq" label="输入序列" width="150" />
