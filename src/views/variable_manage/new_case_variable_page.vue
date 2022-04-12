@@ -1,14 +1,14 @@
 <template>
     <div class='app-container'>
         <div class='layui-ellem-quote'>
-           测试案例管理
+           案例变量新增
         </div>
         <!-- 搜索部分 -->
         <div class='searchform'>
             <el-form>
                 <el-row>
                     <el-col :span='8'>
-                        <el-form-item label='编号'>
+                        <el-form-item label='卡号：'>
                             <el-input
                                 placeholder='请输入内容'
                                 size='mini'
@@ -18,31 +18,12 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span='2'>
-                        <el-form-item>
-                            <el-button
-                                type='primary'
-                                size='mini'
-                                icon='Search'
-                            >
-                                搜索
-                            </el-button>
-                        </el-form-item>
+
                     </el-col>
                 </el-row>
             </el-form>
         </div>
 
-        <div class='layui-ellem-quote'>
-            <span>测试案例列表</span>
-            <el-row style='float:right'>
-                <el-button
-                    size='mini'
-                    icon='Plus'
-                    type='primary'
-                    plain
-                >新增</el-button>
-            </el-row>
-        </div>
         <!-- 表格部分 -->
         <div>
             <el-table

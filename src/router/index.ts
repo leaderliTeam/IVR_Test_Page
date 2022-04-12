@@ -126,6 +126,35 @@ export const allowRouter: Array<IMenubar> = [
             }
 
         ]
+    },
+    {
+        path: '/variable_manage',
+        name: '变量管理',
+        component: LayOut,
+        meta: {
+            title: '测试案例变量',
+            icon: 'Operation'
+        },
+        children:[
+            {
+                path: '/variable_manage',
+                name: '新增测试案例变量',
+                component: () => import('@/views/variable_manage/new_case_variable_page.vue'),
+                meta: {
+                    title: '新增测试案例变量',
+                    icon: 'Avatar'
+                }
+            },
+            {
+                path: '/variable_manage',
+                name: '查询测试案例变量',
+                component: () => import('@/views/variable_manage/query_case_variable_page.vue'),
+                meta: {
+                    title: '查询测试案例变量',
+                    icon: 'Avatar'
+                }
+            }
+        ]
     }
 ];
 
