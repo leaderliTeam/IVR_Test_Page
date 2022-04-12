@@ -29,9 +29,9 @@
                     size='mini'
                     icon='Plus'
                     type='primary'
-                    plain
+                    plain 
+                    @click="$router.push('/test_case/add')"
                 >新增</el-button>
-                
                 <el-button
                     size='mini'
                     icon='Plus'
@@ -56,8 +56,7 @@
 
         <!-- 表格部分 -->
         <div>
-            
-             <el-table :data="tableData" style="width: 100%" size="small" stripe="true" border @selection-change="handleSelectionChange">
+             <el-table :data="tableData" style="width: 100%" size="small" stripe="true" border >
                 <el-table-column type="selection" width="40" />
                 <el-table-column fixed prop="id" label="编号" width="150" />
                 <el-table-column prop="caseDesc" label="案例描述" width="200" />
@@ -83,13 +82,16 @@
        
     </div>
 </template>
+
+
 <script setup lang='ts'>
 import { reactive } from 'vue';
 import axios from 'axios';
+
+
+// 数据表格
 const tableData:any = reactive([]);
-
-
-
+// 查询
 axios.get('/api/test_case_page').then(res => {
     if(res.data.list.length > 0) {
         let i:number;
@@ -98,8 +100,14 @@ axios.get('/api/test_case_page').then(res => {
         }   
     }   
 });
+// 新增
+const addData  = () => {
 
+}
 </script>
+
+
+
 <style scoped lang='scss'>
 .layui-ellem-quote{
     margin-bottom: 10px;
