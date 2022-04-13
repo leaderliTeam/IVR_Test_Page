@@ -137,7 +137,7 @@ export const allowRouter: Array<IMenubar> = [
         },
         children:[
             {
-                path: '/variable_manage',
+                path: '/new_case_variable_page',
                 name: '新增测试案例变量',
                 component: () => import('@/views/variable_manage/new_case_variable_page.vue'),
                 meta: {
@@ -146,7 +146,7 @@ export const allowRouter: Array<IMenubar> = [
                 }
             },
             {
-                path: '/variable_manage',
+                path: '/query_case_variable_page',
                 name: '查询测试案例变量',
                 component: () => import('@/views/variable_manage/query_case_variable_page.vue'),
                 meta: {

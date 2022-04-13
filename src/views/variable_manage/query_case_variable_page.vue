@@ -31,17 +31,26 @@
                 highlight-current-row
             >
                 <el-table-column
-                    width='80'
+ 
                     label='ID'
                     prop='id'
                     align='center'
                 />
                 <el-table-column
                     label='变量名'
-                    prop='username'
+                    prop='variableCode'
                     align='center'
                 />
-
+                <el-table-column
+                    label='变量值'
+                    prop='variableValue'
+                    align='center'
+                />
+                <el-table-column
+                        label='备注'
+                        prop='desc'
+                        align='center'
+                />
                 <el-table-column
                     label='操作'
                     align='center'
@@ -60,7 +69,7 @@ import { reactive } from 'vue';
 import axios from 'axios';
 const list:any = reactive([]);
 
-axios.get('/api/scene').then(res => {
+axios.get('/api/variable_manage/query_case_variable_page').then(res => {
     if(res.data.list.length > 0) {
         let i:number;
         for(i = 0; i < res.data.list.length; i++) {
