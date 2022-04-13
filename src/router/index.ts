@@ -23,7 +23,7 @@ export const allowRouter: Array<IMenubar> = [
             {
                 path: '/home',
                 name: 'home',
-                component: () => import('@/views/test_case/index.vue'),
+                component: () => import('@/views/home/index.vue'),
                 meta: {
                     title: '首页',
                     icon: 'HomeFilled'

@@ -30,7 +30,7 @@
                     icon='Plus'
                     type='primary'
                     plain 
-                    @click="$router.push('/test_case/add')"
+                    @click="$router.push('/test_case/addEdit')"
                 >新增</el-button>
                 <el-button
                     size='mini'
@@ -79,31 +79,42 @@
                 </el-table-column>
              </el-table>
         </div>
-       
     </div>
 </template>
 
 
 <script setup lang='ts'>
-import { reactive } from 'vue';
-import axios from 'axios';
+    import { reactive } from 'vue';
+    import axios from 'axios';
+    import { testCaseList } from '@/api/test_case/index.ts'
 
+    // 数据表格
+    const tableData:any = reactive([]);
 
-// 数据表格
-const tableData:any = reactive([]);
-// 查询
-axios.get('/api/test_case_page').then(res => {
-    if(res.data.list.length > 0) {
-        let i:number;
-        for(i = 0; i < res.data.list.length; i++) {
-            tableData.push(res.data.list[i]);
-        }   
-    }   
-});
-// 新增
-const addData  = () => {
+    // 查询
+    testCaseList().then(res => {
+      console.log(res);
+    });
+    //  axios({
+    //     url:'/api/testCase/queryList',
+    //     method:'get',
+    // }).then(res=>{ console.log(res)})
 
-}
+// axios.get('/api/testCase/queryList').then(res => {
+//     console.log(res);
+    
+    // if(res.data.list.length > 0) {
+    //     let i:number;
+    //     for(i = 0; i < res.data.list.length; i++) {
+    //         tableData.push(res.data.list[i]);
+    //     }   
+    // }   
+// });
+
+    // 新增
+    const addData  = () => {
+
+    }
 </script>
 
 

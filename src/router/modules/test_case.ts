@@ -1,4 +1,6 @@
 import LayOut from '@/components/layout/index.vue';
+const test_case_index = () => import('@/views/test_case/index.vue');
+const test_case_add_edit = () => import('@/views/test_case/addEdit.vue');
 
 export default {
     path: '/test_case',
@@ -12,29 +14,26 @@ export default {
         {
             path: '/test_case',
             name: '测试案例管理',
-            component: () => import('@/views/test_case/test_case_page.vue'),
+            component: test_case_index,
             meta: {
-                title: '测试案例管理',
-                icon: 'Avatar'
+                title: '测试案例管理'
             },
         },
         {
             path: 'add',
             name: '新增',
-            component: () => import('@/views/test_case/add.vue'),
+            component: test_case_add_edit,
             meta: {
-                title: '新增',
-                icon:''
+                title: '新增'
             },
             hidden:true
         },
         {
             path: 'edit/:id',
             name: '编辑',
-            component: () => import('@/views/test_case/add.vue'),
+            component: test_case_add_edit,
             meta: {
-                title: '编辑',
-                icon:''
+                title: '编辑'
             },
             hidden:true
           
