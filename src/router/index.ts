@@ -1,11 +1,11 @@
-import { Router,createRouter, createMemoryHistory, RouteRecordRaw } from 'vue-router';
+import { Router, createRouter, createMemoryHistory, RouteRecordRaw } from 'vue-router';
 import { IMenubar } from '@/type/layout';
 import LayOut from '@/components/layout/index.vue';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const modules = import.meta.globEager('./modules/*.ts');
-const demo:Array<IMenubar> = Object.keys(modules).map((path:string) => modules[path].default);
+const demo: Array<IMenubar> = Object.keys(modules).map((path: string) => modules[path].default);
 
 
 // console.log(demo);
@@ -23,7 +23,7 @@ export const allowRouter: Array<IMenubar> = [
             {
                 path: '/home',
                 name: 'home',
-                component: () => import('@/views/test_case/test_case_page.vue'),
+                component: () => import('@/views/home/index.vue'),
                 meta: {
                     title: '首页',
                     icon: 'HomeFilled'
@@ -155,30 +155,10 @@ export const allowRouter: Array<IMenubar> = [
                 }
             }
         ]
-    },
-    {
-        path: '/test_case',
-        name: '测试案例',
-        component: LayOut,
-        meta: {
-            title: '测试案例',
-            icon: 'Operation'
-        },
-        children:[
-            {
-                path: '/test_case',
-                name: '测试案例管理',
-                component: () => import('@/views/test_case/test_case_page.vue'),
-                meta: {
-                    title: '测试案例管理',
-                    icon: 'Avatar'
-                }
-            }
-        ]
     }
 ];
 
-const router:Router = createRouter({
+const router: Router = createRouter({
     history: createMemoryHistory(),
     routes: allowRouter as RouteRecordRaw[]
 });

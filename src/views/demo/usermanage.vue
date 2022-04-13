@@ -128,53 +128,53 @@
     </div>
 </template>
 <script setup lang='ts'>
-import { reactive, ref, onMounted, watch } from 'vue';
-import axios from 'axios';
-import Fuse from 'fuse.js';
+// import { reactive, ref, onMounted, watch } from 'vue';
+// import axios from 'axios';
+// import Fuse from 'fuse.js';
 
-let list: any = ref([]);
-let fuse: any;
-const options = {
-    includeScore: true,
-    keys: ['statu', 'phone', 'username']
-};
+// let list: any = ref([]);
+// let fuse: any;
+// const options = {
+//     includeScore: true,
+//     keys: ['statu', 'phone', 'username']
+// };
 
-const searchData: any = reactive({
-    statu: '',
-    phone: '',
-    username: ''
-});
+// const searchData: any = reactive({
+//     statu: '',
+//     phone: '',
+//     username: ''
+// });
 
 
-onMounted(() => {
-    axios.get('/api/usermanage').then(res => {
-        if (res.data.list.length > 0) {
-            let i: number;
-            for (i = 0; i < res.data.list.length; i++) {
-                list.value.push(res.data.list[i]);
-            }
-        }
-        fuse = ref(new Fuse(list.value, options));
-    });
-});
+// onMounted(() => {
+//     axios.get('/api/usermanage').then(res => {
+//         if (res.data.list.length > 0) {
+//             let i: number;
+//             for (i = 0; i < res.data.list.length; i++) {
+//                 list.value.push(res.data.list[i]);
+//             }
+//         }
+//         fuse = ref(new Fuse(list.value, options));
+//     });
+// });
 
-watch(searchData, new_val => {
-    if (searchData?.uaername != '') {
-        searchData_list.value = fuse.value.search(searchData.username).map((item: any) => item.item);
-    } else {
-        searchData_list.value = list;
-    }
-});
+// watch(searchData, new_val => {
+//     if (searchData?.uaername != '') {
+//         searchData_list.value = fuse.value.search(searchData.username).map((item: any) => item.item);
+//     } else {
+//         searchData_list.value = list;
+//     }
+// });
 
-let searchData_list = ref(list);
+// let searchData_list = ref(list);
 
-const formatter = (row: any) => {
-    if (row.statu === '0') {
-        return '停用';
-    } else {
-        return '使用';
-    }
-};
+// const formatter = (row: any) => {
+//     if (row.statu === '0') {
+//         return '停用';
+//     } else {
+//         return '使用';
+//     }
+// };
 
 </script>
 <style scoped lang='scss'>

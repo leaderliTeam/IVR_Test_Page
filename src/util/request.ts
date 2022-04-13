@@ -50,7 +50,7 @@ const axios = function({ path,method = 'GET',data = {} }:any = {}) {
         let datas:object = { params:{ ...data } };
         if(method === 'POST') datas = { ...{ data } };
         axiosNew({
-            url:`${config.host}${path}`,
+            url:`${path}`,
             method,
             ...datas
         }).then(res => {

@@ -3,7 +3,7 @@
 import { MockMethod } from 'vite-plugin-mock';
 export default [
     {
-        url: '/api/test_case_page',
+        url: '/api/testCase/queryList',
         method: 'get',
         response: () => {
             return {

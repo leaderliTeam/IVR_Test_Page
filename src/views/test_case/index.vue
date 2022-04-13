@@ -29,9 +29,9 @@
                     size='mini'
                     icon='Plus'
                     type='primary'
-                    plain
+                    plain 
+                   
                 >新增</el-button>
-                
                 <el-button
                     size='mini'
                     icon='Plus'
@@ -56,8 +56,7 @@
 
         <!-- 表格部分 -->
         <div>
-            
-             <el-table :data="tableData" style="width: 100%" size="small" stripe="true" border @selection-change="handleSelectionChange">
+             <el-table :data="tableData" style="width: 100%" size="small" stripe="true" border >
                 <el-table-column type="selection" width="40" />
                 <el-table-column fixed prop="id" label="编号" width="150" />
                 <el-table-column prop="caseDesc" label="案例描述" width="200" />
@@ -80,26 +79,48 @@
                 </el-table-column>
              </el-table>
         </div>
-       
     </div>
 </template>
+
+
 <script setup lang='ts'>
-import { reactive } from 'vue';
-import axios from 'axios';
-const tableData:any = reactive([]);
+    import { reactive } from 'vue';
+    import axios from 'axios';
+    import { useRouter } from 'vue-router';
+    const router = useRouter();
+     import { testCaseList } from '@/api/test_case/index.ts'
 
+    // 数据表格
+    const tableData:any = reactive([]);
 
+    // 查询
+    testCaseList().then(res => {   
+      console.log(res);
+    });
+    //  axios({
+    //     url:'/api/testCase/queryList',
+    //     method:'get',
+    // }).then(res=>{ console.log(res)})
 
-axios.get('/api/test_case_page').then(res => {
-    if(res.data.list.length > 0) {
-        let i:number;
-        for(i = 0; i < res.data.list.length; i++) {
-            tableData.push(res.data.list[i]);
-        }   
-    }   
-});
+    // axios.get('/api/testCase/queryList').then(res => {
+    //     console.log(res);
+        
+    //     if(res.data.list.length > 0) {
+    //         let i:number;
+    //         for(i = 0; i < res.data.list.length; i++) {
+    //             tableData.push(res.data.list[i]);
+    //         }   
+    //     }   
+    //  });
 
+    // 新增
+    const addData  = () => {
+
+    }
 </script>
+
+
+
 <style scoped lang='scss'>
 .layui-ellem-quote{
     margin-bottom: 10px;
