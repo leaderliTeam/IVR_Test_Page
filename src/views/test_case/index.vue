@@ -94,9 +94,14 @@
     const tableData:any = reactive([]);
 
     // 查询
-    testCaseList().then(res => {   
-      console.log(res);
+    testCaseList().then(res => {  
+        console.log(res);
+         
+        res?.list.forEach(item => {
+            tableData.push(item)
+        });
     });
+    
     //  axios({
     //     url:'/api/testCase/queryList',
     //     method:'get',
