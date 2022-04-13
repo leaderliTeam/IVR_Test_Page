@@ -30,7 +30,7 @@
                     icon='Plus'
                     type='primary'
                     plain 
-                    @click="$router.push('/test_case/addEdit')"
+                   
                 >新增</el-button>
                 <el-button
                     size='mini'
@@ -86,13 +86,15 @@
 <script setup lang='ts'>
     import { reactive } from 'vue';
     import axios from 'axios';
-    import { testCaseList } from '@/api/test_case/index.ts'
+    import { useRouter } from 'vue-router';
+    const router = useRouter();
+     import { testCaseList } from '@/api/test_case/index.ts'
 
     // 数据表格
     const tableData:any = reactive([]);
 
     // 查询
-    testCaseList().then(res => {
+    testCaseList().then(res => {   
       console.log(res);
     });
     //  axios({
@@ -100,16 +102,16 @@
     //     method:'get',
     // }).then(res=>{ console.log(res)})
 
-// axios.get('/api/testCase/queryList').then(res => {
-//     console.log(res);
-    
-    // if(res.data.list.length > 0) {
-    //     let i:number;
-    //     for(i = 0; i < res.data.list.length; i++) {
-    //         tableData.push(res.data.list[i]);
+    // axios.get('/api/testCase/queryList').then(res => {
+    //     console.log(res);
+        
+    //     if(res.data.list.length > 0) {
+    //         let i:number;
+    //         for(i = 0; i < res.data.list.length; i++) {
+    //             tableData.push(res.data.list[i]);
+    //         }   
     //     }   
-    // }   
-// });
+    //  });
 
     // 新增
     const addData  = () => {

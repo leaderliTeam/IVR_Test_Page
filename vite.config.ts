@@ -45,6 +45,7 @@ export default defineConfig(({ command }) => {
             // 代理配置，
             proxy: {
                 '/api': {
+                    url:'localhost:3000',
                     target: '',
                     changeOrigin: true,
                     rewrite: (path) => path.replace(/^\/api/, '')
