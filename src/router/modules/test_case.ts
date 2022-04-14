@@ -20,7 +20,7 @@ export default {
             },
         },
         {
-            path: 'add',
+            path: '/add',
             name: '新增',
             component: test_case_add_edit,
             meta: {
@@ -29,7 +29,7 @@ export default {
             hidden:true
         },
         {
-            path: 'edit/:id',
+            path: '/edit/:id',
             name: '编辑',
             component: test_case_add_edit,
             meta: {
