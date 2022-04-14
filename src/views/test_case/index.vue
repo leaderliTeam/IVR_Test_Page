@@ -30,7 +30,6 @@
                     icon='Plus'
                     type='primary'
                     plain 
-                   
                 >新增</el-button>
                 <el-button
                     size='mini'
@@ -86,38 +85,24 @@
 <script setup lang='ts'>
     import { reactive } from 'vue';
     import axios from 'axios';
+    import * as api from '@/api/test_case/index.ts';
     import { useRouter } from 'vue-router';
-    const router = useRouter();
-     import { testCaseList } from '@/api/test_case/index.ts'
 
+    const router = useRouter();
+    
     // 数据表格
     const tableData:any = reactive([]);
 
     // 查询
-    testCaseList().then(res => {  
-        console.log(res);
-         
-        res?.list.forEach(item => {
-            tableData.push(item)
-        });
+    api.testCaseList().then(res => {  
+        if(res.list.length > 0) {
+            let i:number;
+            for(i = 0; i < res.list.length; i++) {
+                tableData.push(res.list[i]);
+            }   
+        }  
     });
     
-    //  axios({
-    //     url:'/api/testCase/queryList',
-    //     method:'get',
-    // }).then(res=>{ console.log(res)})
-
-    // axios.get('/api/testCase/queryList').then(res => {
-    //     console.log(res);
-        
-    //     if(res.data.list.length > 0) {
-    //         let i:number;
-    //         for(i = 0; i < res.data.list.length; i++) {
-    //             tableData.push(res.data.list[i]);
-    //         }   
-    //     }   
-    //  });
-
     // 新增
     const addData  = () => {
 
