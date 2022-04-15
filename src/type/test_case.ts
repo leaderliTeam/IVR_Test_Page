@@ -1,6 +1,8 @@
 import type { FormInstance } from 'element-plus'
 import { ref } from 'vue';
-export interface testCaseAddForm {
+
+// 测试案例字段
+export interface TestCaseInt {
     id:string,
     caseDesc:string,
     inputSeq:string,
@@ -16,8 +18,24 @@ export interface testCaseAddForm {
     tag:string
 }
 
-export class  testCaseAddData {
-    addEditForm : testCaseAddForm = {
+
+// 搜索框查询字段
+export interface SelectFormInt {
+    caseDesc:string,
+    page:number,
+    count:number
+}
+
+
+export class TestCaseInitData {
+    tableList : [TestCaseInt][] = []
+    selectForm : SelectFormInt = {
+        caseDesc:'',
+        page:0,
+        count:0
+    }
+    datalist:TestCaseInt[] = []
+    addEditForm : TestCaseInt = {
         id:'',
         caseDesc:'',
         inputSeq:'',
@@ -32,6 +50,5 @@ export class  testCaseAddData {
         editState:'',
         tag:''
     }
-
     addEditFormRef = ref<FormInstance>();
 }

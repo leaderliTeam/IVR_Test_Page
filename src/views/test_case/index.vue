@@ -4,18 +4,19 @@
             测试案例管理
         </div>
         <!-- 搜索部分 -->
-        <div class='searchform'>
-            <el-form>
+        <div class='select-box'>
+            <el-form :model="data.selectForm">
                 <el-row>
                     <el-col :span='8'>
                         <el-form-item >
                             <el-input
-                                placeholder='请输入内容'
+                                placeholder='案例描述'
                                 size='mini'
                                 clearable
                                 style='width:200px'
+                                v-model = 'data.selectForm.caseDesc' 
                             />
-                            <el-button size='mini' :icon="Search" type="primary">搜索</el-button>
+                            <el-button size='mini' :icon="Search" type="primary" @click="searchSubmit">搜索</el-button>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -55,7 +56,7 @@
 
         <!-- 表格部分 -->
         <div>
-             <el-table :data="tableData" style="width: 100%" size="small" stripe="true" border >
+             <el-table :data="data.tableList[data.selectForm.page]" style="width: 100%" size="small" stripe="true" border >
                 <el-table-column type="selection" width="40" />
                 <el-table-column fixed prop="id" label="编号" width="150" />
                 <el-table-column prop="caseDesc" label="案例描述" width="200" />
@@ -78,38 +79,54 @@
                 </el-table-column>
              </el-table>
         </div>
+        <el-pagination @current-change="currentChange" layout="prev, pager, next" :total="data.selectForm.count" />
     </div>
 </template>
 
 
 <script setup lang='ts'>
-    import { reactive } from 'vue';
+    import { reactive, onMounted} from 'vue';
     import axios from 'axios';
-    import * as api from '@/api/test_case/index.ts';
+    import { testCaseList } from '@/api/test_case/index.ts';
+    import { TestCaseInitData,TestCaseInt } from '@/type/test_case';
     import { useRouter } from 'vue-router';
-
     const router = useRouter();
     
-    // 数据表格
-    const tableData:any = reactive([]);
+    const data:any = reactive(new TestCaseInitData());
 
-    // 查询
-    api.testCaseList().then(res => {  
-        if(res.list.length > 0) {
-            let i:number;
-            for(i = 0; i < res.list.length; i++) {
-                tableData.push(res.list[i]);
-            }   
-        }  
+    testCaseList({page:data.selectForm.page}).then(res => { 
+        data.selectForm.count = res.list.length
+        data.dataList = res.list
+        selectList(res.list)
     });
-    
-    // 新增
-    const addData  = () => {
 
+    const selectList = (arr:TestCaseInt[])=>{
+        data.tableList=[]
+        for(let index=0;index<arr.length;index+=10){
+            let list:any = arr.slice(index,index+10)
+            data.tableList.push(list)
+            console.log(data.tableList);
+            
+        }
     }
+
+    const searchSubmit = () =>{
+        let arr:TestCaseInt[]=[]
+        if(data.selectForm.caseDesc){
+            arr = data.dataList.filter(v=>v.caseDesc.indexOf(data.selectForm.caseDesc)!=-1)
+        }else{
+            arr = data.dataList
+        }
+        data.selectForm.count = arr.length
+        // console.log(arr);
+        selectList(arr)
+    }
+
+    const currentChange = (page:number)=>{
+        data.selectForm.page = page-1
+    }
+
 </script>
-
-
 
 <style scoped lang='scss'>
 .layui-ellem-quote{

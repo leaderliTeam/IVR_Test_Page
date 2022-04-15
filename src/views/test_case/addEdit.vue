@@ -82,10 +82,12 @@
 
 <script setup lang='ts'>
 import { reactive , ref } from 'vue';
-import { testCaseAddData } from '@/type/test_case';
+import { TestCaseInitData } from '@/type/test_case';
+ import { testCaseAdd } from '@/api/test_case/index.ts';
 import type { FormInstance } from 'element-plus';
 
-const addEditForm = reactive( new testCaseAddData() );
+const addEditForm = reactive( new TestCaseInitData() );
+
 const addEditFormRef = ref<FormInstance>();
 
 const submitForm = ( addEditFormRef : FormInstance | undefined ) =>{
@@ -94,6 +96,7 @@ const submitForm = ( addEditFormRef : FormInstance | undefined ) =>{
     addEditFormRef.validate((valid) => {
       if (valid) {
         console.log('submit!')
+        testCaseAdd()
       } else {
         console.log('error submit!')
         return false

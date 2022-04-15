@@ -3,12 +3,12 @@
 import { MockMethod } from 'vite-plugin-mock';
 export default [
     {
-        url: '/api/testCase/queryList',
+        url: '/testCase/queryList',
         method: 'get',
         response: () => {
             return {
                 code: 0,
-                'list|10': [{
+                'list|20': [{
                     'id|+1': 'IVRT2204020001',
                     caseDesc:'@csentence(10)',
                     inputSeq:'mock',
@@ -21,7 +21,7 @@ export default [
                     executeNum:'mock',
                     lastExecuteTime:'mock',
                     editState:'mock',
-                    
+                    tag:'mock'
                 }]
             };
         }
