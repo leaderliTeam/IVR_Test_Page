@@ -8,6 +8,11 @@ export default [
         response: () => {
             return {
                 code: 0,
+                msg: "success",
+                pageSize: 0,
+                currentPage: 0,
+                totalPage: 0,
+                totalCount: 0,
                 'list|20': [{
                     'id|+1': 'IVRT2204020001',
                     caseDesc:'@csentence(10)',
