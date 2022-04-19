@@ -5,7 +5,7 @@
         </div>
         <!-- 搜索部分 -->
         <div class='select-box'>
-            <el-form :model="data.selectForm">
+            <el-form :model="selectForm">
                 <el-row>
                     <el-col :span='8'>
                         <el-form-item >
@@ -14,7 +14,7 @@
                                 size='mini'
                                 clearable
                                 style='width:200px'
-                                v-model = 'data.selectForm.caseDesc' 
+                                v-model = 'selectForm.caseDesc' 
                             />
                             <el-button size='mini' :icon="Search" type="primary" @click="searchSubmit">搜索</el-button>
                         </el-form-item>
@@ -57,7 +57,7 @@
 
         <!-- 表格部分 -->
         <div>
-             <el-table :data="data.tableList[data.selectForm.page]" style="width: 100%" size="small" stripe="true" border >
+             <el-table :data="tableList[selectForm.page]" style="width: 100%" size="small" stripe="true" border >
                 <el-table-column type="selection" width="40" />
                 <el-table-column fixed prop="id" label="编号" width="150" />
                 <el-table-column prop="caseDesc" label="案例描述" width="200" />
@@ -80,15 +80,15 @@
                 </el-table-column>
              </el-table>
         </div>
-        <el-pagination @current-change="currentChange" layout="prev, pager, next" :total="data.selectForm.count" />
+        <el-pagination @current-change="currentChange" layout="prev, pager, next" :total="selectForm.count" />
     </div>
 
-    <el-dialog v-model="data.addEditDialog"  width="600px" title="提示" >
+    <el-dialog v-model="addEditDialog"  width="600px" title="提示" >
         <!-- <span slot="title">
-            <span >{{(data.addEditForm.id ? '编辑':'新增')}}</span>
+            <span >{{(addEditForm.id ? '编辑':'新增')}}</span>
         </span> -->
         <el-form 
-            :model="data.addEditForm" 
+            :model="addEditForm" 
             class="addEditForm"
             :rules="rules"
             ref="addEditFormRef"
@@ -97,70 +97,70 @@
             <el-form-item label="案例描述" prop="caseDesc">
             <el-input
                 placeholder="请输入内容"
-                v-model="data.addEditForm.caseDesc"
+                v-model="addEditForm.caseDesc"
                 clearable
             />
             </el-form-item>
             <el-form-item label="输入序列" prop="inputSeq">
             <el-input
                 placeholder="请输入内容"
-                v-model="data.addEditForm.inputSeq"
+                v-model="addEditForm.inputSeq"
                 clearable
             />
             </el-form-item>
                 <el-form-item label="预期结果规则校验" prop="inputSeq">
             <el-input
                 placeholder="请输入内容"
-                v-model="data.addEditForm.inputSeq"
+                v-model="addEditForm.inputSeq"
                 clearable
             />
             </el-form-item>
                 <el-form-item label="是否弃用" prop="used">
             <el-input
                 placeholder="请输入内容"
-                v-model="data.addEditForm.used"
+                v-model="addEditForm.used"
                 clearable
             />
             </el-form-item>
                 <el-form-item label="关联的需求编号" prop="reqId">
             <el-input
                 placeholder="请输入内容"
-                v-model="data.addEditForm.reqId"
+                v-model="addEditForm.reqId"
                 clearable
             />
             </el-form-item>
                 <el-form-item label="测试负责人" prop="tester">
             <el-input
                 placeholder="请输入内容"
-                v-model="data.addEditForm.tester"
+                v-model="addEditForm.tester"
                 clearable
             />
             </el-form-item>
                 <el-form-item label="开发负责人" prop="developer">
             <el-input
                 placeholder="请输入内容"
-                v-model="data.addEditForm.developer"
+                v-model="addEditForm.developer"
                 clearable
             />
             </el-form-item>
                 <el-form-item label="前置测试案例编号" prop="frontCaseId">
             <el-input
                 placeholder="请输入内容"
-                v-model="data.addEditForm.frontCaseId"
+                v-model="addEditForm.frontCaseId"
                 clearable
             />
             </el-form-item>
                 <el-form-item label="添加标签" prop="tag">
             <el-input
                 placeholder="请输入内容"
-                v-model="data.addEditForm.tag"
+                v-model="addEditForm.tag"
                 clearable
             />
             </el-form-item>
         </el-form>
         <template #footer>
         <span class="dialog-footer">
-            <el-button @click="data.addEditDialog = false">取消</el-button>
+            <el-button @click="addEditDialog = false">取消</el-button>
             <el-button type="primary" @click="submitForm(addEditFormRef)">保存</el-button
             >
         </span>
@@ -171,7 +171,7 @@
 
 
 <script setup lang='ts'>
-    import { reactive, onMounted,ref} from 'vue';
+    import { reactive,onMounted,ref,toRefs} from 'vue';
     import axios from 'axios';
     import { testCaseList } from '@/api/test_case/index.ts';
     import { TestCaseInitData,TestCaseInt } from '@/type/test_case';
@@ -179,47 +179,45 @@
     import type { FormInstance } from 'element-plus';
     const router = useRouter();
 
-    const data:any = reactive(new TestCaseInitData());
-    const tableList:[TestCaseInt][] = [];
-    
-    testCaseList({page:data.selectForm.page}).then(res => { 
-        data.selectForm.count = res.list.length
-        data.dataList = res.list
+    let data:any = reactive(new TestCaseInitData());
+
+    let {selectForm,addEditForm,addEditFormRef,addEditDialog,tableList,dataList} = toRefs(data);
+
+    testCaseList({page:selectForm.page}).then(res => { 
+        selectForm.value.count = res.list.length
+        dataList = res.list
         selectList(res.list)
     });
-
+    
     const selectList = (arr:TestCaseInt[])=>{
-        data.tableList=[]
+        tableList.value=[]
         for(let index=0;index<arr.length;index+=10){
             let list:any = arr.slice(index,index+10)
-            data.tableList.push(list)
-            console.log(data.tableList);
+            tableList.value.push(list)
+            console.log(tableList);
         }
     }
 
     const searchSubmit = () =>{
-       
         
         let arr:TestCaseInt[]=[]
-        if(data.selectForm.caseDesc){
-            arr = data.dataList.filter(v=>v.caseDesc.indexOf(data.selectForm.caseDesc)!=-1)
+        if(selectForm.caseDesc){
+            arr = dataList.filter(v=>v.caseDesc.indexOf(selectForm.caseDesc)!=-1)
         }else{
-            arr = data.dataList
+            arr = dataList
         }
-        data.selectForm.count = arr.length
+        selectForm.value.count = arr.length
         // console.log(arr);
         selectList(arr)
     }
 
     const currentChange = (page:number)=>{
-        data.selectForm.page = page-1
+        selectForm.value.page = page-1
     }
  
     const addEdit = ()=>{
-        data.addEditDialog = true
+        addEditDialog.value = true
     }
-
-    const addEditFormRef = ref<FormInstance>();
 
     const submitForm =(addEditFormRef : FormInstance | undefined) =>{
         if (!addEditFormRef) return  

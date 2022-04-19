@@ -34,7 +34,7 @@ export class TestCaseInitData {
         page:0,
         count:0
     }
-    dataList:TestCaseInt[] = []
+    datalist:TestCaseInt[] = []
     addEditForm : TestCaseInt = {
         id:'',
         caseDesc:'',
@@ -50,6 +50,6 @@ export class TestCaseInitData {
         editState:'',
         tag:''
     }
-    addEditFormRef = ref<FormInstance>() 
-    addEditDialog =ref(false)
+    addEditFormRef = ref<FormInstance>()
+    addEditDialog = ref(false)
 }
