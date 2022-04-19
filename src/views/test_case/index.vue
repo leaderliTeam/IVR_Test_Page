@@ -51,13 +51,14 @@
                     icon='CloseBold'
                     type='danger'
                     plain
+                    @click="deleteTestCase(null)"
                 >批量删除</el-button>
             </el-row>
         </div>
 
         <!-- 表格部分 -->
         <div>
-             <el-table :data="tableList[selectForm.page]" style="width: 100%" size="small" stripe="true" border >
+             <el-table :data="tableList[selectForm.page]" style="width: 100%" size="small" stripe="true" border @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="40" />
                 <el-table-column fixed prop="id" label="编号" width="150" />
                 <el-table-column prop="caseDesc" label="案例描述" width="200" />
@@ -74,8 +75,8 @@
                 <el-table-column fixed="right" label="操作" width="260">
                     <template #default="scope">
                         <el-button type="primary" size="small">预期结果规则</el-button>
-                        <el-button type="primary" size="small" @click="addEdit">编辑</el-button>
-                        <el-button type="danger" size="small">删除</el-button>
+                        <el-button type="primary" size="small" @click="addEdit(scope.row.id)">编辑</el-button>
+                        <el-button type="danger" size="small" @click="deleteTestCase(scope.row.id)">删除</el-button>
                     </template>
                 </el-table-column>
              </el-table>
@@ -83,7 +84,7 @@
         <el-pagination @current-change="currentChange" layout="prev, pager, next" :total="selectForm.count" />
     </div>
 
-    <el-dialog v-model="addEditDialog"  width="600px" title="提示" >
+    <el-dialog v-model="addEditDialog"  width="600px" title="提示"  >
         <!-- <span slot="title">
             <span >{{(addEditForm.id ? '编辑':'新增')}}</span>
         </span> -->
@@ -92,8 +93,16 @@
             class="addEditForm"
             :rules="rules"
             ref="addEditFormRef"
-            label-width="150px">
+            label-width="130px"
+            size="small">
 
+            <el-form-item label="编号" prop="id" >
+            <el-input
+                placeholder="请输入内容"
+                v-model="addEditForm.id"
+                clearable
+            />
+             </el-form-item>
             <el-form-item label="案例描述" prop="caseDesc">
             <el-input
                 placeholder="请输入内容"
@@ -151,11 +160,22 @@
             />
             </el-form-item>
                 <el-form-item label="添加标签" prop="tag">
-            <el-input
+            <el-select
+                v-model="selectTag"
+                multiple
+                filterable
+                allow-create
+                default-first-option
+                :reserve-keyword="false"
                 placeholder="请输入内容"
-                v-model="addEditForm.tag"
-                clearable
-            />
+            >
+                <el-option
+                v-for="item in optionTags"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+                />
+            </el-select>
             </el-form-item>
         </el-form>
         <template #footer>
@@ -173,22 +193,30 @@
 <script setup lang='ts'>
     import { reactive,onMounted,ref,toRefs} from 'vue';
     import axios from 'axios';
-    import { testCaseList } from '@/api/test_case/index.ts';
+    import { testCaseList ,testCaseAdd,optionTag} from '@/api/test_case/index.ts';
     import { TestCaseInitData,TestCaseInt } from '@/type/test_case';
     import { useRouter } from 'vue-router';
     import type { FormInstance } from 'element-plus';
+    import { ElMessage } from 'element-plus'
     const router = useRouter();
 
-    let data:any = reactive(new TestCaseInitData());
+    const data:any = reactive(new TestCaseInitData());
 
-    let {selectForm,addEditForm,addEditFormRef,addEditDialog,tableList,dataList} = toRefs(data);
+    let { selectForm,addEditForm,addEditFormRef,addEditDialog,
+    tableList,dataList,selectTag,optionTags,multipleSelection} = toRefs(data);
 
     testCaseList({page:selectForm.page}).then(res => { 
         selectForm.value.count = res.list.length
         dataList = res.list
         selectList(res.list)
     });
-    
+
+    optionTag().then(res=>{
+        optionTags.value=res.list
+        console.log(res.list+"op");
+        
+    })
+
     const selectList = (arr:TestCaseInt[])=>{
         tableList.value=[]
         for(let index=0;index<arr.length;index+=10){
@@ -199,15 +227,13 @@
     }
 
     const searchSubmit = () =>{
-        
         let arr:TestCaseInt[]=[]
-        if(selectForm.caseDesc){
-            arr = dataList.filter(v=>v.caseDesc.indexOf(selectForm.caseDesc)!=-1)
+        if(selectForm.value.caseDesc){
+            arr = dataList.filter(v=>v.caseDesc.indexOf(selectForm.value.caseDesc)!=-1)
         }else{
             arr = dataList
         }
         selectForm.value.count = arr.length
-        // console.log(arr);
         selectList(arr)
     }
 
@@ -223,14 +249,51 @@
         if (!addEditFormRef) return  
         addEditFormRef.validate((valid) => {
             if (valid) {
-                alert('submit!')
-                testCaseAdd()
+
+                testCaseAdd(addEditForm).then(response => { 
+                    if(response.code==200){
+                        ElMessage({
+                            message: response.msg,
+                            type: 'success'
+                        })
+                        addEditDialog.value = false
+                    }
+                });
+               
             } else {
-               alert('fail!')
+                ElMessage.error(response.msg)
                 return false
-        }
+            }
         })
     }
+
+    const handleSelectionChange = (val: string[]) => {
+        multipleSelection.value = val
+    }
+
+    const deleteTestCase = (id:string)=>{
+        let ids = []
+        if(id){
+            ids.push(id)
+        }else{
+            multipleSelection.value.forEach(row => {
+				ids.push(row.id)
+			})
+        }
+        console.log(ids)
+        testCaseDelete(ids).then(response=>{
+            if(response.code==200){
+                ElMessage({
+                    message: response.msg,
+                    type: 'success'
+                })     
+            }else{
+                ElMessage.error(response.msg)
+            }
+        })
+    }
+
+    
 </script>
 
 <style scoped lang='scss'>

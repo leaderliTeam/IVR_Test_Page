@@ -52,4 +52,7 @@ export class TestCaseInitData {
     }
     addEditFormRef = ref<FormInstance>()
     addEditDialog = ref(false)
+    selectTag = ref<string[]>([])
+    optionTags = []
+    multipleSelection:TestCaseInt[] = []
 }

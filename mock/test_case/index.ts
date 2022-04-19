@@ -30,5 +30,26 @@ export default [
                 }]
             };
         }
+    },{
+        url: '/testCase/queryTags',
+        method: 'get',
+        response: () => {
+            return {
+                list:[
+                    {
+                        value: '金额1',
+                        label: '金额1',
+                      },
+                      {
+                        value: '金额2',
+                        label: '金额2',
+                      },
+                      {
+                        value: '金额3',
+                        label: '金额3',
+                      }
+                ]
+            }
+        }
     }
 ] as MockMethod[];

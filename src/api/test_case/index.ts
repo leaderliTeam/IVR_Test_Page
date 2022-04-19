@@ -16,3 +16,19 @@ export const testCaseAdd = (data:any) => {
         data
     });
 };
+
+export const testCaseDelete = (ids:string[]) => {
+    return axios({
+        path:'/testCase/delete',
+        method:'delete',
+        ids
+    });
+};
+
+
+export const optionTag = () => {
+    return axios({
+        path:'/testCase/queryTags',
+        method:'get'
+    });
+};
