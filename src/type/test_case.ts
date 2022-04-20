@@ -55,4 +55,12 @@ export class TestCaseInitData {
     selectTag = ref<string[]>([])
     optionTags = []
     multipleSelection:TestCaseInt[] = []
+    execCaseDialog = ref(false)
+    execCaseFormRef = ref<FormInstance>()
+    execCaseForm  = {
+        batch:'',
+        id:'',
+        caseDesc:'',
+        inputSeq:'',  
+    }
 }

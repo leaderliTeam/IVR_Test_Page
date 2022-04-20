@@ -38,6 +38,7 @@
                     icon='Plus'
                     type='primary'
                     plain
+                    @click="execCastBind(null)"
                 >执行案例绑定</el-button>
                   <el-button
                     size='mini'
@@ -187,6 +188,53 @@
         </template>
     </el-dialog>
 
+     <el-dialog v-model="execCaseDialog"  width="600px" title="执行案例绑定"  >
+        <el-form 
+            :model="execCaseForm" 
+            class="execCaseForm"
+            :rules="rules"
+            ref="execCaseFormRef"
+            label-width="100px"
+            size="small">
+            
+            <el-form-item label="编号" prop="id" >
+            <el-input
+                placeholder="请输入内容"
+                v-model="execCaseForm.id"
+                clearable
+            />
+             </el-form-item>
+            <el-form-item label="案例描述" prop="caseDesc">
+            <el-input
+                placeholder="请输入内容"
+                v-model="execCaseForm.caseDesc"
+                clearable
+            />
+            </el-form-item>
+            <el-form-item label="输入序列" prop="inputSeq">
+            <el-input
+                placeholder="请输入内容"
+                v-model="execCaseForm.inputSeq"
+                clearable
+            />
+            </el-form-item>
+            <el-form-item label="批次" prop="batch">
+            <el-input
+                placeholder="请输入内容"
+                v-model="execCaseForm.batch"
+                clearable
+            />
+            </el-form-item>
+            
+        </el-form>
+        <template #footer>
+        <span class="dialog-footer">
+            <el-button @click="execCaseDialog = false">取消</el-button>
+            <el-button type="primary" @click="submitExecCaseForm(execCaseFormRef)">保存</el-button>
+        </span>
+        </template>
+    </el-dialog>
+
 </template>
 
 
@@ -203,7 +251,8 @@
     const data:any = reactive(new TestCaseInitData());
 
     let { selectForm,addEditForm,addEditFormRef,addEditDialog,
-    tableList,dataList,selectTag,optionTags,multipleSelection} = toRefs(data);
+    tableList,dataList,selectTag,optionTags,multipleSelection,
+    execCaseDialog,execCaseFormRef,execCaseForm} = toRefs(data);
 
     testCaseList({page:selectForm.page}).then(res => { 
         selectForm.value.count = res.list.length
@@ -291,6 +340,10 @@
                 ElMessage.error(response.msg)
             }
         })
+    }
+
+    const execCastBind = ()=> {
+        execCaseDialog.value = true
     }
 
     
