@@ -17,7 +17,7 @@ export default {
             component: test_case_index,
             meta: {
                 title: '测试案例管理'
-            },
+            }
         },
         {
             path: '/add',
@@ -40,4 +40,4 @@ export default {
         }
     ]
 
-}
+};
